@@ -1,3 +1,5 @@
+package storage;
+
 import java.util.concurrent.ConcurrentHashMap;
 
 public class KeyValueStore {
