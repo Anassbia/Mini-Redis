@@ -50,9 +50,7 @@ public class RedisServer {
                  }
                 }
                 synchronized (lifeCycleLock) {
-                    if (stopping) {// i am adding this because of a possible race condition ,
-                        //main might accept a client while the calling thread for stop has already executed as well
-                        // this  closes it immediately
+                    if (stopping) {
                         socket.close();
                         break;
                     }
