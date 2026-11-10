@@ -42,7 +42,7 @@ public class ClientSessionHandler {
         }
         List<String> message ;
         while((message = parser.readCommand())!=null ){
-            System.out.println(message);
+            System.out.println(message);// reminder to disable when benchmarking
             serializer.serialize(commnadHandler.handle(message));
         }
     }

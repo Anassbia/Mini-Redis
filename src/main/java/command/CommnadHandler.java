@@ -24,6 +24,8 @@ public class CommnadHandler {
             case "INCR" -> handleIncr(Pieces);
             case "DECR" -> handleDecr(Pieces);
             case "SETNX"-> handleSetnx(Pieces);
+            case "EXPIRE" -> handleExpire(Pieces);
+            case "TTL" -> handleTtl(Pieces);
             default -> new Response.Error("ERR unknown command") ;
         };
     }
@@ -84,5 +86,24 @@ public class CommnadHandler {
         }
         return new Response.Error("ERR wrong number of arguments");
 
+    }
+    private Response handleExpire(List<String> Pieces){
+        try{
+            if (Pieces.size() == 3){
+                long seconds = Long.parseLong(Pieces.get(2));
+                return new Response.LongValue(kvs.expire(Pieces.get(1),seconds)?1:0);
+            }
+        }catch(NumberFormatException | ArithmeticException e){
+            return new Response.Error("ERR value is not an integer or out of range");
+        }
+
+        return new Response.Error("ERR wrong number of arguments");
+    }
+
+    private Response handleTtl(List<String> Pieces){
+        if(Pieces.size()==2){
+            return new Response.LongValue(kvs.ttl(Pieces.get(1)));
+        }
+        return new Response.Error("ERR wrong number of arguments");
     }
 }
